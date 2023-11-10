@@ -1,0 +1,45 @@
+version: "3"
+services:
+  database:
+    platform: linux/amd64
+    build:
+      context: database
+      dockerfile: Dockerfile
+    ports:
+      - "3306:3306"
+    volumes:
+      - futura_estoque:/var/lib/mysql
+  backend:
+    platform: linux/amd64
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend/src:/usr/src/app/src
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: "mysql://root:root@database:3306/futura-estoque?connect_timeout=300"
+      NODE_ORACLEDB_USER: FUTURA
+      NODE_ORACLEDB_PASSWORD: e4a62f5bbe
+      NODE_ORACLEDB_CONNECTIONSTRING: 192.168.0.110/orcl
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    ports:
+      - "81:80"
+  app:
+    platform: linux/amd64
+    build:
+      dockerfile: Dockerfile
+      network: host
+    ports:
+      - "5000:3000"
+    environment:
+      DATABASE_URL: "mysql://root:root@database:3306/futura-estoque"
+      NODE_ORACLEDB_USER: FUTURA
+      NODE_ORACLEDB_PASSWORD: e4a62f5bbe
+      NODE_ORACLEDB_CONNECTIONSTRING: 192.168.0.110/orcl
+volumes:
+  futura_estoque:

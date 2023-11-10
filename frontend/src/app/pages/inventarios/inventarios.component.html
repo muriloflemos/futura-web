@@ -1,0 +1,50 @@
+<app-page-header title="Consulta Inventário">
+  <ng-container slot="actions">
+    <app-button title="Pesquisa" icon="search" color="secondary" (click)="pesquisa()"></app-button>
+    <app-button title="Abrir Inventário" icon="add" (click)="abrirInventario()"></app-button>
+  </ng-container>
+</app-page-header>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  <ng-container matColumnDef="data">
+    <th mat-header-cell *matHeaderCellDef class="col-date">Data</th>
+    <td mat-cell *matCellDef="let inventario">{{ inventario.data | date: 'dd/MM/yyyy HH:mm' }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="empresa">
+    <th mat-header-cell *matHeaderCellDef>Empresa</th>
+    <td mat-cell *matCellDef="let inventario">{{ inventario?.empresa?.nome }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef class="col-status">Status</th>
+    <td mat-cell *matCellDef="let inventario">{{ inventario.status }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="usuario">
+    <th mat-header-cell *matHeaderCellDef>Criado por</th>
+    <td mat-cell *matCellDef="let inventario">{{ inventario.Usuario.nome }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="acoes">
+    <th mat-header-cell *matHeaderCellDef class="col-acoes"></th>
+    <td mat-cell *matCellDef="let inventario">
+      <div class="cell-acoes">
+        <app-button icon="manage_search" color="basic" type="icon" (click)="edit(inventario)"></app-button>
+        <app-button icon="delete" color="basic" type="icon" (click)="delete(inventario)"></app-button>
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell no-data" colspan="4">
+        <span *ngIf="isLoading | async">Carregando...</span>
+        <span *ngIf="!(isLoading | async)">Nenhum registro encontrado</span>
+      </td>
+    </tr>
+  </ng-container>
+</table>

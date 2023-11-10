@@ -1,0 +1,19 @@
+:host .form-field-full {
+  width: 100%;
+}
+
+:host .form-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+:host .form-row-spacer {
+  width: 2rem;
+}
+
+@media only screen and (max-width: 600px) {
+  :host .form-row {
+    display: block;
+  }
+}

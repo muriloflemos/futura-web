@@ -1,0 +1,27 @@
+:host button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: inherit;
+}
+
+:host button.button-icon {
+  height: 35px;
+  width: 35px;
+}
+
+:host button mat-icon {
+  font-size: 1.4rem;
+}
+
+:host button.mat-icon-button {
+  border-radius: 4px;
+}
+
+:host button span {
+  margin-inline-start: 0.2rem;
+}
+
+:host button.secondary {
+  background-color: var(--light-gray);
+}

@@ -1,0 +1,45 @@
+<h2 mat-dialog-title>Lançamento de Provisão</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline">
+      <mat-label>Unidade</mat-label>
+      <mat-select formControlName="id_empresa">
+        <mat-option *ngFor="let empresa of empresas" [value]="empresa.id">
+          {{ empresa.nome }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Modalidade</mat-label>
+      <mat-select formControlName="id_modalidade">
+        <mat-option *ngFor="let modalidade of modalidades" [value]="modalidade.id">
+          {{ modalidade.descricao }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Parceiro</mat-label>
+      <input type="text" matInput formControlName="parceiro" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Vencimento</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="vencimento">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Valor</mat-label>
+      <input type="number" matInput formControlName="valor" />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close [mat-dialog-close]="null">Cancelar</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="form.value" [disabled]="!form.valid">Salvar</button>
+</mat-dialog-actions>

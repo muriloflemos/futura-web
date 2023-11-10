@@ -1,0 +1,27 @@
+:host table {
+  width: 100%;
+}
+
+:host .col-date,
+:host .col-status {
+  width: 15rem;
+}
+
+:host .col-acoes {
+  width: 7rem;
+}
+
+:host .cell-acoes {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+:host .no-data {
+  text-align: center;
+}
+
+:host .cell-acoes app-button:not(:first-child) {
+  margin-inline-start: 0.5rem;
+}

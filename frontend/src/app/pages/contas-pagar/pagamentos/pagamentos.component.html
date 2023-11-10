@@ -1,0 +1,224 @@
+<app-page-header title="Pagamentos"></app-page-header>
+
+<mat-card class="section">
+  <form [formGroup]="form" class="filtro">
+    <mat-form-field appearance="outline" class="form-field-full">
+      <mat-label>Unidade</mat-label>
+      <mat-select formControlName="id_empresa" multiple>
+        <mat-checkbox
+          color="primary"
+          class="select-all"
+          [checked]="allEmpresas"
+          (change)="toggleEmpresas($event.checked)"
+        >SELECIONAR TODOS</mat-checkbox>
+        <mat-option *ngFor="let empresa of empresas" [value]="empresa.id">
+          {{ empresa.nome }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Vencimento</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate formControlName="data_inicio" placeholder="Início">
+        <input matEndDate formControlName="data_fim" placeholder="Fim">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+
+      <mat-error *ngIf="form.controls.data_inicio.hasError('matStartDateInvalid')">Data de início inválida</mat-error>
+      <mat-error *ngIf="form.controls.data_fim.hasError('matEndDateInvalid')">Data de fim inválida</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Parceiro</mat-label>
+      <input matInput type="text" formControlName="parceiro">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Número</mat-label>
+      <input matInput type="text" formControlName="numero">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field-full">
+      <mat-label>Modalidade</mat-label>
+      <mat-select formControlName="modalidade" multiple>
+        <mat-checkbox
+          color="primary"
+          class="select-all"
+          [checked]="allModalidades"
+          (change)="toggleModalidades($event.checked)"
+        >SELECIONAR TODOS</mat-checkbox>
+        <mat-option *ngFor="let modalidade of modalidades" [value]="modalidade.id">
+          {{ modalidade.descricao }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field-full">
+      <mat-label>Carteira</mat-label>
+      <mat-select formControlName="carteira" multiple>
+        <mat-checkbox
+          color="primary"
+          class="select-all"
+          [checked]="allCarteiras"
+          (change)="toggleCarteiras($event.checked)"
+        >SELECIONAR TODOS</mat-checkbox>
+        <mat-option *ngFor="let carteira of carteiras" [value]="carteira.id">
+          {{ carteira.descricao }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="filtro__actions">
+      <button
+        type="reset"
+        mat-raised-button
+        (click)="limpar()"
+      >Limpar</button>
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="!form.valid"
+        (click)="filtrar()"
+      >Filtrar</button>
+      <ng-container *ngIf="dataSource$ | async as dataSource">
+        <button
+          *ngIf="dataSource.length > 0"
+          mat-raised-button
+          color="primary"
+          [disabled]="!form.valid"
+          (click)="export()"
+        >Exportar</button>
+      </ng-container>
+    </div>
+  </form>
+</mat-card>
+
+<mat-card class="section table-wrapper" [class.hidden]="!active">
+  <ng-container *ngIf="dataSource$ | async as dataSource">
+    <table
+      mat-table
+      *ngIf="dataSource.length > 0"
+      [dataSource]="dataSource"
+      class="mat-elevation-z0 tabela-cobranca"
+      matSort
+      (matSortChange)="sortChange($event)"
+      [matSortActive]="sort"
+      [matSortDirection]="sortDirection"
+      matSortDisableClear
+    >
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox
+            color="primary"
+            (change)="$event ? masterToggle() : null"
+            [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()"
+          ></mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox
+            color="primary"
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selection.toggle(row) : null"
+            [checked]="selection.isSelected(row)"
+          ></mat-checkbox>
+        </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <ng-container matColumnDef="unidade">
+        <th mat-header-cell *matHeaderCellDef class="tabela-cobranca__cell medium" mat-sort-header> Unidade </th>
+        <td mat-cell *matCellDef="let item" class="tabela-cobranca__cell"> {{ item.unidade }} </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <ng-container matColumnDef="parceiro">
+        <th mat-header-cell *matHeaderCellDef class="tabela-cobranca__cell large" mat-sort-header> Parceiro </th>
+        <td mat-cell *matCellDef="let item" class="tabela-cobranca__cell"> {{ item.parceiro }} </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <ng-container matColumnDef="vencimento">
+        <th mat-header-cell *matHeaderCellDef class="tabela-cobranca__cell small" mat-sort-header> Vencimento </th>
+        <td mat-cell *matCellDef="let item" class="tabela-cobranca__cell"> {{ item.vencimento | date: 'shortDate':'+0000' }} </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <ng-container matColumnDef="valor">
+        <th mat-header-cell *matHeaderCellDef class="tabela-cobranca__cell medium" mat-sort-header> Valor </th>
+        <td mat-cell *matCellDef="let item" class="tabela-cobranca__cell"> {{ item.valor | currency: 'BRL' }} </td>
+        <td mat-footer-cell *matFooterCellDef class="tabela-cobranca__cell medium"> {{ valorTotal | currency: 'BRL' }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="ajuste">
+        <th mat-header-cell *matHeaderCellDef class="tabela-cobranca__cell medium"> Ajuste </th>
+        <td mat-cell *matCellDef="let item" class="tabela-cobranca__cell">
+          <app-number-input [value]="item.ajuste" (valueChange)="onChangeAJuste($event, item)"></app-number-input>
+        </td>
+        <td mat-footer-cell *matFooterCellDef class="tabela-cobranca__cell medium"> {{ valorTotalAjuste | currency: 'BRL' }} </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <ng-container matColumnDef="total">
+        <th mat-header-cell *matHeaderCellDef class="tabela-cobranca__cell medium" mat-sort-header> Total </th>
+        <td mat-cell *matCellDef="let item" class="tabela-cobranca__cell"> {{ item.valorTotal | currency: 'BRL' }} </td>
+        <td mat-footer-cell *matFooterCellDef class="tabela-cobranca__cell medium"> {{ valorTotalComAjuste | currency: 'BRL' }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="numero">
+        <th mat-header-cell *matHeaderCellDef class="tabela-cobranca__cell small" mat-sort-header> Número </th>
+        <td mat-cell *matCellDef="let item" class="tabela-cobranca__cell"> {{ item.numero }} </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <ng-container matColumnDef="modalidade">
+        <th mat-header-cell *matHeaderCellDef class="tabela-cobranca__cell medium" mat-sort-header> Modalidade </th>
+        <td mat-cell *matCellDef="let item" class="tabela-cobranca__cell"> {{ item.modalidade }} </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <ng-container matColumnDef="carteira">
+        <th mat-header-cell *matHeaderCellDef class="tabela-cobranca__cell medium" mat-sort-header> Carteira </th>
+        <td mat-cell *matCellDef="let item" class="tabela-cobranca__cell"> {{ item.carteira }} </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <ng-container matColumnDef="observacao">
+        <th mat-header-cell *matHeaderCellDef class="tabela-cobranca__cell xlarge"> Observação </th>
+        <td mat-cell *matCellDef="let item" class="tabela-cobranca__cell">
+          <observacao [value]="item.observacao" (textChange)="onChangeObservacao($event, item)"></observacao>
+        </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="13"></td>
+      </tr>
+    </table>
+
+    <div class="loading" *ngIf="isLoading$ | async">
+      <mat-spinner diameter="25"></mat-spinner>
+      <span>Buscando dados...</span>
+    </div>
+    <div class="empty" *ngIf="!(isLoading$ | async) && dataSource.length == 0">Nenhum registro encontrado</div>
+  </ng-container>
+</mat-card>
+
+<br>
+<div style="height: 1rem;"></div>
+
+<button
+  *ngIf="selection.selected.length > 0"
+  mat-fab
+  color="primary"
+  class="floating-button"
+  (click)="editSelected()"
+>
+  <mat-icon>edit</mat-icon>
+</button>

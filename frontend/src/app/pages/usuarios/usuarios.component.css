@@ -1,0 +1,22 @@
+:host table {
+  width: 100%;
+}
+
+:host .col-tipo {
+  width: 10rem;
+}
+
+:host .col-acoes {
+  width: 7rem;
+}
+
+:host .cell-acoes {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+:host .cell-acoes app-button:not(:first-child) {
+  margin-inline-start: 0.5rem;
+}

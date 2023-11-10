@@ -1,0 +1,8 @@
+<button *ngIf="type == ButtonType.normal" mat-raised-button [color]="color" [class]="color" [disabled]="disabled">
+  <mat-icon *ngIf="icon">{{ icon }}</mat-icon>
+  <span>{{ title }}</span>
+</button>
+
+<button *ngIf="type == ButtonType.icon" mat-icon-button mat-raised-button [color]="color" [class]="color" class="button-icon">
+  <mat-icon>{{ icon }}</mat-icon>
+</button>

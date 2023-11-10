@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>Pesquisa Usuário</h1>
+
+<div mat-dialog-content class="content" [formGroup]="form">
+  <mat-form-field appearance="outline">
+    <mat-label>Nome</mat-label>
+    <input matInput placeholder="Nome" formControlName="nome">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Tipo</mat-label>
+    <mat-select formControlName="tipo">
+      <mat-option *ngFor="let tipo of tipos" [value]="tipo.key">
+        {{ tipo.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div mat-dialog-actions class="actions">
+  <app-button (click)="cancelar()" title="Cancelar" icon="close" color="secondary"></app-button>
+  <app-button [mat-dialog-close]="form.value" title="Pesquisar" icon="done"></app-button>
+</div>

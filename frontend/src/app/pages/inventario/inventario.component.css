@@ -1,0 +1,48 @@
+:host table {
+  width: 100%;
+}
+
+:host .col-qtd,
+:host .col-un {
+  width: 10rem;
+}
+
+:host .col-acoes {
+  width: 3rem;
+}
+
+:host .no-data {
+  text-align: center;
+  border-bottom: none;
+}
+
+:host th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type,
+:host th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
+  padding: 0;
+}
+
+:host .table-row:last-of-type td.mat-cell {
+  border-bottom: none;
+}
+
+:host .input-quantidade {
+  max-width: 5rem;
+}
+
+:host .no-label ::ng-deep .mat-form-field-wrapper {
+  margin: 0;
+  padding: 0.5rem 0;
+}
+
+:host .no-label ::ng-deep .mat-form-field-infix {
+  border-top: 0.3em solid transparent;
+}
+
+:host .row {
+  display: flex;
+  flex-direction: row;
+}
+
+:host .row mat-form-field:not(:first-of-type) {
+  margin-inline-start: 1rem;
+}

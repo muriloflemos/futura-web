@@ -1,0 +1,83 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer
+    class="sidenav"
+    [attr.role]="'dialog'"
+    [mode]="'over'"
+  >
+    <mat-toolbar>
+      <img src="./assets/logo.png" width="75%" class="logo" />
+    </mat-toolbar>
+    <mat-nav-list>
+      <ng-container *ngIf="isEstoque || isAdmin">
+        <div mat-subheader>Estoque</div>
+        <mat-divider></mat-divider>
+        <a mat-list-item routerLink="/inventarios" (click)="drawer.close()">
+          <mat-icon>manage_search</mat-icon>
+          <span>Consulta Inventário</span>
+        </a>
+        <a mat-list-item routerLink="/inventario" (click)="drawer.close()">
+          <mat-icon>inventory_2</mat-icon>
+          <span>Abrir Inventário</span>
+        </a>
+      </ng-container>
+      <ng-container *ngIf="isFinanceiroReceber || isAdmin">
+        <div mat-subheader>Contas a Receber</div>
+        <mat-divider></mat-divider>
+        <a mat-list-item routerLink="/financeiro/dashboard" (click)="drawer.close()">
+          <mat-icon>inventory_2</mat-icon>
+          <span>Dashboard</span>
+        </a>
+        <a mat-list-item routerLink="/financeiro/cobranca" (click)="drawer.close()">
+          <mat-icon>monetization_on</mat-icon>
+          <span>Cobrança</span>
+        </a>
+        <!-- <a mat-list-item routerLink="/financeiro/relatorios" (click)="drawer.close()">
+          <mat-icon>bar_chart</mat-icon>
+          <span>Relatórios</span>
+        </a> -->
+      </ng-container>
+      <ng-container *ngIf="isFinanceiroPagar || isAdmin">
+        <div mat-subheader>Contas a Pagar</div>
+        <mat-divider></mat-divider>
+        <a mat-list-item routerLink="/contas-pagar/dashboard" (click)="drawer.close()">
+          <mat-icon>inventory_2</mat-icon>
+          <span>Dashboard</span>
+        </a>
+        <a mat-list-item routerLink="/contas-pagar/pagamentos" (click)="drawer.close()">
+          <mat-icon>monetization_on</mat-icon>
+          <span>Pagamentos</span>
+        </a>
+        <a mat-list-item routerLink="/provisao" (click)="drawer.close()">
+          <mat-icon>currency_exchange</mat-icon>
+          <span>Provisoes</span>
+        </a>
+      </ng-container>
+      <div mat-subheader>Acesso</div>
+      <mat-divider></mat-divider>
+      <a mat-list-item *ngIf="isAdmin" routerLink="/usuarios" (click)="drawer.close()">
+        <mat-icon>people</mat-icon>
+        <span>Usuários</span>
+      </a>
+      <a mat-list-item routerLink="/logout" (click)="drawer.close()">
+        <mat-icon>logout</mat-icon>
+        <span>Sair</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+      >
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <a routerLink="/">FUTURA - WEB</a>
+    </mat-toolbar>
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

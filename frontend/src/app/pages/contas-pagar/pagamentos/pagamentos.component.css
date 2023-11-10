@@ -1,0 +1,116 @@
+.section {
+  margin-block-end: 1.5rem;
+}
+
+.hidden {
+  display: none;
+}
+
+.filtro {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.filtro > *:not(:last-child) {
+  margin-inline-end: 1rem;
+}
+
+.filtro ::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 0;
+}
+
+.filtro__actions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.filtro__actions button:not(:last-child) {
+  margin-inline-end: 1rem;
+}
+
+.filtro__actions ::ng-deep > button {
+  height: 3rem;
+}
+
+.table-wrapper {
+  overflow-x: scroll;
+  padding: 0;
+  margin-block-end: 1rem;
+  max-height: 600px;
+}
+
+.table-wrapper::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 10px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: rgba(0,0,0,.5);
+  -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+}
+
+.tabela-cobranca {
+  width: 100%;
+}
+
+.tabela-cobranca__cell {
+  white-space: nowrap;
+  padding: 0 1rem;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tabela-cobranca__cell.small {
+  min-width: 3rem;
+}
+
+.tabela-cobranca__cell.medium {
+  min-width: 8rem;
+}
+
+.tabela-cobranca__cell.large {
+  min-width: 15rem;
+}
+
+.tabela-cobranca__cell.xlarge {
+  min-width: 20rem;
+}
+
+.loading {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.loading mat-spinner {
+  margin-inline-end: 0.5rem;
+}
+
+.empty {
+  text-align: center;
+  padding: 1rem;
+}
+
+.floating-button {
+  position: fixed;
+  right: 2rem;
+  bottom: 1rem;
+  z-index: 1000;
+}
+
+.select-all {
+  padding: 0.5rem 1rem 0.5rem;
+  width: 100%;
+}

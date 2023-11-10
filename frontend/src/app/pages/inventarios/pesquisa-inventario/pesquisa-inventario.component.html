@@ -1,0 +1,30 @@
+<h1 mat-dialog-title>Pesquisa Inventário</h1>
+
+<div mat-dialog-content class="content" [formGroup]="form">
+  <mat-form-field appearance="outline">
+    <mat-label>Período</mat-label>
+    <mat-date-range-input [rangePicker]="picker">
+      <input matStartDate formControlName="dataInicio" placeholder="Start date">
+      <input matEndDate formControlName="dataFim" placeholder="End date">
+    </mat-date-range-input>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+
+    <mat-error *ngIf="form.controls.dataInicio.hasError('matStartDateInvalid')">Data inicial inválida</mat-error>
+    <mat-error *ngIf="form.controls.dataFim.hasError('matEndDateInvalid')">Data final inválida</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Status</mat-label>
+    <mat-select formControlName="status" multiple>
+      <mat-option *ngFor="let s of status" [value]="s">
+        {{ s }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div mat-dialog-actions class="actions">
+  <app-button (click)="cancelar()" title="Cancelar" icon="close" color="secondary"></app-button>
+  <app-button [mat-dialog-close]="form.value" title="Pesquisar" icon="done" [disabled]="!form.valid"></app-button>
+</div>

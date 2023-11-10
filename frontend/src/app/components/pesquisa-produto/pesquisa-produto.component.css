@@ -1,0 +1,59 @@
+:host .header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+:host h2 {
+  text-transform: uppercase;
+}
+
+:host .table {
+  width: 100%;
+}
+
+:host .table th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type,
+:host .table th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
+  padding: 0;
+}
+
+:host .content mat-form-field {
+  width: 100%;
+}
+
+:host .actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-block-end: 0;
+}
+
+:host .actions app-button {
+  width: 100%;
+}
+
+:host .col-cod,
+:host .col-qtd {
+  width: 6rem;
+}
+
+:host .col-qtd {
+  text-align: right;
+}
+
+:host .col-acoes {
+  width: 12rem;
+}
+
+:host .loading-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+:host .loading-label {
+  margin-inline-start: 0.5rem;
+}

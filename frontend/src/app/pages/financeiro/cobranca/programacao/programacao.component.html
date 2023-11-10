@@ -1,0 +1,16 @@
+<div (click)="picker.open()">
+  <input
+    matInput
+    [matDatepicker]="picker"
+    [value]="value"
+    (dateChange)="dateChange($event)"
+    readonly
+  >
+  <mat-datepicker #picker>
+    <mat-date-range-picker-actions>
+      <button mat-raised-button color="warn" (click)="clean()" matDateRangePickerCancel>Remover</button>
+      <button mat-raised-button matDateRangePickerCancel>Cancelar</button>
+      <button mat-raised-button color="primary" matDateRangePickerApply>OK</button>
+    </mat-date-range-picker-actions>
+  </mat-datepicker>
+</div>

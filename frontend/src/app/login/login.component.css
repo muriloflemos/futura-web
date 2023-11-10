@@ -1,0 +1,45 @@
+:host .container {
+  height: 100%;
+  background-image: url("/assets/background-login.jpeg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:host mat-card {
+  width: 400px;
+  height: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+:host mat-card > mat-card-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-block-end: 2rem;
+}
+
+:host .logo {
+  max-width: 70%;
+}
+
+:host .form {
+  width: 85%;
+}
+
+:host .form mat-form-field {
+  width: 100%;
+}
+
+:host .btn-login {
+  width: 100%;
+  line-height: 3rem;
+  text-transform: uppercase;
+  font-size: 1rem;
+}

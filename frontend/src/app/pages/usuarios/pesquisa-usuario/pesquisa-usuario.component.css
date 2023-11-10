@@ -1,0 +1,13 @@
+:host .content mat-form-field {
+  width: 100%;
+}
+
+:host .actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:host .actions app-button:not(:first-of-type) {
+  margin-inline-start: 1rem;
+}

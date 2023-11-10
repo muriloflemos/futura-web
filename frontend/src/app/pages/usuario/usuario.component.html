@@ -1,0 +1,77 @@
+<app-page-header title="Usuário / Novo">
+  <ng-container slot="actions">
+    <app-button title="Cancelar" icon="close" color="secondary" (click)="cancelar()"></app-button>
+    <app-button title="Salvar" icon="done" (click)="salvar()" [disabled]="!form.valid"></app-button>
+  </ng-container>
+</app-page-header>
+
+<mat-card class="example-card">
+  <mat-card-content [formGroup]="form">
+    <mat-form-field appearance="outline" class="form-field-full">
+      <mat-label>Nome</mat-label>
+      <input matInput formControlName="nome" required>
+    </mat-form-field>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="form-field-full">
+        <mat-label>Login</mat-label>
+        <input matInput formControlName="login" required>
+      </mat-form-field>
+
+      <span class="form-row-spacer"></span>
+
+      <mat-form-field appearance="outline" class="form-field-full">
+        <mat-label>Tipo</mat-label>
+        <mat-select formControlName="tipo" required>
+          <mat-option *ngFor="let tipo of tipos" [value]="tipo.key">
+            {{ tipo.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row" *ngIf="!isAdmin">
+      <mat-form-field appearance="outline" class="form-field-full">
+        <mat-label>Empresa</mat-label>
+        <mat-select formControlName="id_empresa" [required]="!isAdmin" multiple>
+          <mat-option *ngFor="let empresa of (empresas | async)" [value]="empresa.id">
+            {{ empresa.nome }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <ng-container *ngIf="isEstoque">
+        <span class="form-row-spacer"></span>
+
+        <mat-form-field appearance="outline" class="form-field-full">
+          <mat-label>Tipo Estoque</mat-label>
+          <mat-select formControlName="tipo_estoque" [required]="!isAdmin">
+            <mat-option *ngFor="let tipoEstoque of tiposEstoque" [value]="tipoEstoque.id">
+              {{ tipoEstoque.label }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
+    </div>
+
+    <div class="form-row" *ngIf="!editing">
+      <mat-form-field appearance="outline" class="form-field-full">
+        <mat-label>Senha</mat-label>
+        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="senha" [required]="!editing">
+        <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-pressed]="hidePassword">
+          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <span class="form-row-spacer"></span>
+
+      <mat-form-field appearance="outline" class="form-field-full">
+        <mat-label>Confirmar senha</mat-label>
+        <input matInput [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirmarSenha" [required]="!editing">
+        <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" [attr.aria-pressed]="hideConfirmPassword">
+          <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  </mat-card-content>
+</mat-card>

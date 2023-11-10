@@ -1,0 +1,31 @@
+.filter-container__form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.filter-container__form > *:not(:last-child) {
+  margin-inline-end: 1rem;
+}
+
+.filter-container__form__submit ::ng-deep > button {
+  height: 3rem;
+}
+
+.row-spacing {
+  margin-block-end: 1.5rem;
+}
+
+.select-all {
+  padding: 0.5rem 1rem 0;
+}
+
+.filter-container__form ::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 0;
+}
+
+button {
+  height: 52px;
+}

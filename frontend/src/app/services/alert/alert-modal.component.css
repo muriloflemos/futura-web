@@ -1,0 +1,13 @@
+:host .container {
+  padding: 20px;
+}
+
+:host h1 {
+  font-size: 32px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+:host .button-spacer {
+  width: 2rem;
+}

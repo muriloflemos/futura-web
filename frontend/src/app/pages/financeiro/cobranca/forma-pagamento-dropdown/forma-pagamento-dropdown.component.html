@@ -1,0 +1,7 @@
+<mat-select [(value)]="value" (selectionChange)="onChangeValue($event)">
+  <mat-option value=""></mat-option>
+  <mat-option
+    *ngFor="let pagamento of formasPagamento"
+    [value]="pagamento.id"
+  >{{ pagamento.nome }}</mat-option>
+</mat-select>

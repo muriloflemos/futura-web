@@ -1,0 +1,231 @@
+<app-page-header title="Dashboard"></app-page-header>
+
+<mat-card class="section">
+  <form [formGroup]="form" class="filtro">
+    <mat-form-field appearance="outline" class="form-field-full">
+      <mat-label>Unidade</mat-label>
+      <mat-select formControlName="id_empresa" multiple>
+        <mat-checkbox
+          color="primary"
+          class="select-all"
+          [checked]="allEmpresas"
+          (change)="toggleEmpresas($event.checked)"
+        >SELECIONAR TODOS</mat-checkbox>
+        <mat-option *ngFor="let empresa of empresas" [value]="empresa.id">
+          {{ empresa.nome }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Vencimento</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate formControlName="data_inicio" placeholder="Início">
+        <input matEndDate formControlName="data_fim" placeholder="Fim">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+
+      <mat-error *ngIf="form.controls.data_inicio.hasError('matStartDateInvalid')">Data de início inválida</mat-error>
+      <mat-error *ngIf="form.controls.data_fim.hasError('matEndDateInvalid')">Data de fim inválida</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Emissão</mat-label>
+      <mat-date-range-input [rangePicker]="pickerEmissao">
+        <input matStartDate formControlName="data_emissao_inicio" placeholder="Início">
+        <input matEndDate formControlName="data_emissao_fim" placeholder="Fim">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="pickerEmissao"></mat-datepicker-toggle>
+      <mat-date-range-picker #pickerEmissao></mat-date-range-picker>
+
+      <mat-error *ngIf="form.controls.data_emissao_inicio.hasError('matStartDateInvalid')">Data de início inválida</mat-error>
+      <mat-error *ngIf="form.controls.data_emissao_fim.hasError('matEndDateInvalid')">Data de fim inválida</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field-full">
+      <mat-label>Situação</mat-label>
+      <mat-select formControlName="situacao">
+        <mat-option value=""></mat-option>
+        <mat-option value="1">Em Aberto</mat-option>
+        <mat-option value="2">Liquidado</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Programação</mat-label>
+      <mat-date-range-input [rangePicker]="picker1">
+        <input matStartDate formControlName="programacao_inicio" placeholder="Início">
+        <input matEndDate formControlName="programacao_fim" placeholder="Fim">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker1></mat-date-range-picker>
+
+      <mat-error *ngIf="form.controls.programacao_inicio.hasError('matStartDateInvalid')">Data de início inválida</mat-error>
+      <mat-error *ngIf="form.controls.programacao_fim.hasError('matEndDateInvalid')">Data de fim inválida</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Parceiro</mat-label>
+      <input matInput type="text" formControlName="parceiro">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Vendedor</mat-label>
+      <input matInput type="text" formControlName="vendedor">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field-full">
+      <mat-label>Modalidade</mat-label>
+      <mat-select formControlName="modalidade" multiple>
+        <mat-checkbox
+          color="primary"
+          class="select-all"
+          [checked]="allModalidades"
+          (change)="toggleModalidades($event.checked)"
+        >SELECIONAR TODOS</mat-checkbox>
+        <mat-option *ngFor="let modalidade of modalidades" [value]="modalidade.id">
+          {{ modalidade.descricao }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field-full">
+      <mat-label>Carteira</mat-label>
+      <mat-select formControlName="carteira" multiple>
+        <mat-checkbox
+          color="primary"
+          class="select-all"
+          [checked]="allCarteiras"
+          (change)="toggleCarteiras($event.checked)"
+        >SELECIONAR TODOS</mat-checkbox>
+        <mat-option *ngFor="let carteira of carteiras" [value]="carteira.id">
+          {{ carteira.descricao }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field-full">
+      <mat-label>Forma Pagamento</mat-label>
+      <mat-select formControlName="forma" multiple>
+        <mat-checkbox
+          color="primary"
+          class="select-all"
+          [checked]="allFormasPagamento"
+          (change)="toggleFormasPagamento($event.checked)"
+        >SELECIONAR TODOS</mat-checkbox>
+        <mat-option *ngFor="let forma of formasPagamento" [value]="forma.id">
+          {{ forma.nome }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field-full">
+      <mat-label>Pontualidade</mat-label>
+      <mat-select formControlName="pontualidade">
+        <mat-option value=""></mat-option>
+        <mat-option value="A">A</mat-option>
+        <mat-option value="B">B</mat-option>
+        <mat-option value="C">C</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field-full">
+      <mat-label>Cobrança Preventiva</mat-label>
+      <mat-select formControlName="cobranca">
+        <mat-option value=""></mat-option>
+        <mat-option [value]="1">Sim</mat-option>
+        <mat-option [value]="2">Não</mat-option>
+        <mat-option [value]="3">Concluída</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field-full">
+      <mat-label>Status Cobrança</mat-label>
+      <mat-select formControlName="status_cobranca">
+        <mat-option></mat-option>
+        <mat-option [value]="1">Pendente</mat-option>
+        <mat-option [value]="2">Concluído</mat-option>
+        <mat-option [value]="3">Enviado</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="filtro__actions">
+      <button
+        type="reset"
+        mat-raised-button
+        (click)="limpar()"
+      >Limpar</button>
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="!form.valid"
+        (click)="filtrar()"
+      >Filtrar</button>
+    </div>
+  </form>
+</mat-card>
+
+<div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="space-between">
+  <div class="card" fxFlex="49" fxFlex.sm="100" fxFlex.xs="100">
+    <app-totalizador
+      title="A VENCER (RECEBIMENTO)"
+      [statusVencimento]="statusVencimento.VENCER"
+      [tipoCobranca]="tipoCobranca.DEBITO"
+    ></app-totalizador>
+  </div>
+
+  <div class="card" fxFlex="49" fxFlex.sm="100" fxFlex.xs="100">
+    <app-totalizador
+      title="A VENCER (ADIANTAMENTO)"
+      [statusVencimento]="statusVencimento.VENCER"
+      [tipoCobranca]="tipoCobranca.CREDITO"
+    ></app-totalizador>
+  </div>
+</div>
+
+<div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="space-between">
+  <div class="card" fxFlex="49" fxFlex.sm="100" fxFlex.xs="100">
+    <app-totalizador
+      title="VENCIDO (RECEBIMENTO)"
+      [statusVencimento]="statusVencimento.VENCIDOS"
+      [tipoCobranca]="tipoCobranca.DEBITO"
+    ></app-totalizador>
+  </div>
+
+  <div class="card" fxFlex="49" fxFlex.sm="100" fxFlex.xs="100">
+    <app-totalizador
+      title="VENCIDO (ADIANTAMENTO)"
+      [statusVencimento]="statusVencimento.VENCIDOS"
+      [tipoCobranca]="tipoCobranca.CREDITO"
+    ></app-totalizador>
+  </div>
+</div>
+
+<div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="space-between">
+  <div class="card" fxFlex="49" fxFlex.sm="100" fxFlex.xs="100">
+    <app-resumo-cobrancas
+      title="COBRANÇA PREVENTIVA"
+      [statusVencimento]="statusVencimento.VENCER"
+      [tipoCobranca]="tipoCobranca.DEBITO"
+    ></app-resumo-cobrancas>
+  </div>
+
+  <div class="card" fxFlex="49" fxFlex.sm="100" fxFlex.xs="100">
+    <app-resumo-cobrancas
+      title="COBRANÇA EFETIVA"
+      [statusVencimento]="statusVencimento.VENCIDOS"
+      [tipoCobranca]="tipoCobranca.DEBITO"
+    ></app-resumo-cobrancas>
+  </div>
+</div>
+
+<div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="space-between">
+  <div class="card" fxFlex="49" fxFlex.sm="100" fxFlex.xs="100">
+    <app-resumo-vencimentos></app-resumo-vencimentos>
+  </div>
+
+  <div class="card" fxFlex="49" fxFlex.sm="100" fxFlex.xs="100">
+    <app-resumo-mensal></app-resumo-mensal>
+  </div>
+</div>

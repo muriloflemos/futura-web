@@ -1,0 +1,14 @@
+mat-dialog-content {
+  min-width: 30rem;
+}
+
+@media screen and (max-width: 660px) {
+  mat-dialog-content {
+    min-width: 100%;
+  }
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}

@@ -1,0 +1,26 @@
+<mat-card *ngIf="isLoaded | async">
+  <mat-card-title>{{ title }}</mat-card-title>
+
+  <ng-container *ngIf="isLoading | async; else elseBlock">
+    <div class="spinner">
+      <mat-progress-spinner
+        class="example-margin"
+        color="primary"
+        mode="indeterminate"
+        value="50">
+      </mat-progress-spinner>
+    </div>
+  </ng-container>
+
+  <ng-template #elseBlock>
+    <highcharts-chart
+      [Highcharts]="Highcharts"
+      [options]="chartOptions"
+      style="width: 100%; height: 400px; display: block;"
+    >
+    </highcharts-chart>
+
+    <br />
+    <mat-card-title>TOTAL: {{ total | async | currency: 'BRL' }}</mat-card-title>
+  </ng-template>
+</mat-card>

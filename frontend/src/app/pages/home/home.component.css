@@ -1,0 +1,16 @@
+:host {
+  display: flex;
+  min-height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+:host img {
+  max-width: 30rem;
+}
+
+@media only screen and (max-width: 800px) {
+  :host img {
+    max-width: 45%;
+  }
+}

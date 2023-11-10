@@ -1,0 +1,36 @@
+<app-page-header title="Relatórios"></app-page-header>
+
+<mat-card>
+  <div class="filter-container">
+    <form [formGroup]="form" class="filter-container__form">
+      <mat-form-field appearance="outline" class="form-field-full">
+        <mat-label>Relatório</mat-label>
+        <mat-select formControlName="tipo">
+          <mat-option>Selecione</mat-option>
+          <mat-option value="reportTypeEnum.COBRANCA_EFETIVA">Relatório de cobrança efetiva</mat-option>
+          <mat-option value="reportTypeEnum.COBRANCA_PREVENTIVA">Relatório de cobrança preventiva</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Selecione o período</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate formControlName="inicio" placeholder="Início">
+          <input matEndDate formControlName="fim" placeholder="Fim">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+
+        <mat-error *ngIf="form.controls.inicio.hasError('matStartDateInvalid')">Data de início inválida</mat-error>
+        <mat-error *ngIf="form.controls.fim.hasError('matEndDateInvalid')">Data de fim inválida</mat-error>
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        class="filter-container__form__submit"
+        color="primary"
+        [disabled]="!form.valid"
+      >Gerar Relatório</button>
+    </form>
+  </div>
+</mat-card>

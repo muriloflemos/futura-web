@@ -1,0 +1,65 @@
+<h2 mat-dialog-title>Cobrança</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline">
+      <mat-label>Programação de Pagamento</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="programacao">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Forma de Pagamento</mat-label>
+      <mat-select formControlName="id_forma_pagamento">
+        <mat-option value=""></mat-option>
+        <mat-option *ngFor="let forma of formasPagamento" [value]="forma.id">{{ forma.nome }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Pontualidade</mat-label>
+      <mat-select formControlName="pontualidade">
+        <mat-option value=""></mat-option>
+        <mat-option value="A">A</mat-option>
+        <mat-option value="B">B</mat-option>
+        <mat-option value="C">C</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Cobrança Preventiva</mat-label>
+      <mat-select formControlName="cobranca_preventiva">
+        <mat-option value=""></mat-option>
+        <mat-option [value]="1">Sim</mat-option>
+        <mat-option [value]="2">Não</mat-option>
+        <mat-option [value]="3">Concluída</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Status Cobrança Preventiva</mat-label>
+      <mat-select formControlName="status_cobranca">
+        <mat-option value=""></mat-option>
+        <mat-option [value]="1">Pendente</mat-option>
+        <mat-option [value]="2">Concluído</mat-option>
+        <mat-option [value]="3">Enviado</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Obs. Analista de Crédito</mat-label>
+      <textarea matInput formControlName="observacao" [readonly]="!isAnalistaCredito"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Obs. Contas a Receber</mat-label>
+      <textarea matInput formControlName="observacao2" [readonly]="!isContasReceber"></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close [mat-dialog-close]="null">Cancelar</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="form.value">Salvar</button>
+</mat-dialog-actions>

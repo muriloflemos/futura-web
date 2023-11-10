@@ -1,0 +1,35 @@
+<div class="container">
+  <h2 mat-dialog-title *ngIf="data.title">{{ data.title }}</h2>
+
+  <ng-container *ngIf="data.type == AlertType.ERROR || data.type == AlertType.YES_NO">
+    <p *ngIf="data.message">{{ data.message }}</p>
+  </ng-container>
+
+  <ng-container *ngIf="data.type == AlertType.SUCCESS">
+    <p>{{ data.message }}</p>
+  </ng-container>
+
+  <ng-container *ngIf="data.type == AlertType.MULTIPLE_ERRORS">
+    <p *ngFor="let message of data.message">{{ message }}</p>
+  </ng-container>
+
+  <ng-container [ngSwitch]="data.type">
+    <mat-dialog-actions align="center" *ngSwitchCase="AlertType.ERROR">
+      <app-button title="OK" icon="done" [mat-dialog-close]="true"></app-button>
+    </mat-dialog-actions>
+
+    <mat-dialog-actions align="center" *ngSwitchCase="AlertType.SUCCESS">
+      <app-button title="OK" icon="done" [mat-dialog-close]="true"></app-button>
+    </mat-dialog-actions>
+
+    <mat-dialog-actions align="center" *ngSwitchCase="AlertType.MULTIPLE_ERRORS">
+      <app-button title="OK" icon="done" [mat-dialog-close]="true"></app-button>
+    </mat-dialog-actions>
+
+    <mat-dialog-actions align="center" *ngSwitchCase="AlertType.YES_NO">
+      <app-button title="Não" color="warn" icon="close" [mat-dialog-close]="false"></app-button>
+      <span class="button-spacer"></span>
+      <app-button title="Sim" icon="done" [mat-dialog-close]="true"></app-button>
+    </mat-dialog-actions>
+  </ng-container>
+</div>

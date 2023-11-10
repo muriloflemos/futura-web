@@ -1,0 +1,126 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Inventario {
+  id                Int                 @id @default(autoincrement())
+  id_usuario        Int
+  data              DateTime            @db.DateTime(0)
+  status            String              @db.VarChar(50)
+  id_empresa        Int
+  tipo_estoque      Int
+  deleted           Boolean             @default(false)
+  Usuario           Usuario             @relation(fields: [id_usuario], references: [id])
+  ProdutoInventario ProdutoInventario[]
+
+  @@index([id_usuario], name: "id_usuario")
+}
+
+model ProdutoInventario {
+  id                 Int        @id @default(autoincrement())
+  id_produto         Int
+  id_inventario      Int
+  id_usuario         Int
+  nome               String     @db.VarChar(255)
+  unidade            String     @db.VarChar(30)
+  quantidade_estoque Decimal    @db.Decimal(15, 2)
+  quantidade_contada Decimal    @db.Decimal(15, 2)
+  Inventario         Inventario @relation(fields: [id_inventario], references: [id])
+  Usuario            Usuario    @relation(fields: [id_usuario], references: [id])
+
+  @@unique([id_produto, id_inventario], name: "unq_produto")
+  @@index([id_inventario], name: "id_inventario")
+  @@index([id_usuario], name: "id_usuario")
+}
+
+model Usuario {
+  id                Int                 @id @default(autoincrement())
+  nome              String              @db.VarChar(100)
+  login             String              @unique @db.VarChar(100)
+  senha             String              @db.VarChar(50)
+  tipo              String              @db.VarChar(50)
+  tipo_estoque      Int?
+  Inventario        Inventario[]
+  ProdutoInventario ProdutoInventario[]
+  Empresa           UsuarioEmpresa[]
+  Cobranca          Cobranca[]
+  Pagamento         Pagamento[]
+  Provisao          Provisao[]
+}
+
+model UsuarioEmpresa {
+  id         Int     @id @default(autoincrement())
+  id_usuario Int
+  id_empresa Int
+  Usuario    Usuario @relation(fields: [id_usuario], references: [id])
+}
+
+model FormaPagamento {
+  id       Int        @id @default(autoincrement())
+  nome     String     @db.VarChar(100)
+  Cobranca Cobranca[]
+}
+
+model Cobranca {
+  id                  Int             @id @default(autoincrement())
+  controle            String          @unique @db.VarChar(100)
+  programacao         DateTime?
+  id_forma_pagamento  Int?
+  pontualidade        String?         @db.VarChar(1)
+  cobranca_preventiva Int?
+  status_cobranca     Int?
+  observacao          String?         @db.Text
+  observacao2         String?         @db.Text
+  id_usuario          Int
+  created_at          DateTime        @default(now())
+  updated_at          DateTime        @updatedAt
+  FormaPagamento      FormaPagamento? @relation(fields: [id_forma_pagamento], references: [id])
+  Usuario             Usuario         @relation(fields: [id_usuario], references: [id])
+
+  @@index([id_forma_pagamento], name: "id_forma_pagamento")
+  @@index([id_usuario], name: "id_usuario")
+}
+
+model Pagamento {
+  id         Int      @id @default(autoincrement())
+  controle   String   @unique @db.VarChar(100)
+  ajuste     Decimal? @db.Decimal(15, 2)
+  observacao String?  @db.Text
+  id_usuario Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  Usuario    Usuario  @relation(fields: [id_usuario], references: [id])
+
+  @@index([id_usuario], name: "id_usuario")
+}
+
+model Carteira {
+  id        Int    @id
+  descricao String @unique @db.VarChar(100)
+}
+
+model Modalidade {
+  id        Int    @id
+  descricao String @unique @db.VarChar(100)
+}
+
+model Provisao {
+  id            Int      @id @default(autoincrement())
+  id_empresa    Int
+  id_modalidade Int
+  parceiro      String?
+  vencimento    DateTime
+  valor         Decimal  @db.Decimal(15, 2)
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+  id_usuario    Int
+
+  Usuario Usuario @relation(fields: [id_usuario], references: [id])
+
+  @@index([id_usuario], name: "id_usuario")
+}

@@ -1,0 +1,43 @@
+<div class="container">
+  <mat-card>
+    <mat-card-title
+      ><img src="./assets/logo.png" class="logo"
+    /></mat-card-title>
+
+    <form class="form" [formGroup]="form" (ngSubmit)="login()">
+      <mat-form-field appearance="outline">
+        <mat-label>Usuário</mat-label>
+        <input
+          matInput
+          placeholder="Nome de usuário"
+          formControlName="username"
+          required
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Senha</mat-label>
+        <input
+          matInput
+          placeholder="Senha"
+          [type]="hidePassword ? 'password' : 'text'"
+          formControlName="password"
+          required
+        />
+        <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword" [attr.aria-pressed]="hidePassword">
+          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        color="primary"
+        class="btn-login"
+        type="submit"
+        [disabled]="!isFormValid() || loading"
+      >
+        Entrar
+      </button>
+    </form>
+  </mat-card>
+</div>

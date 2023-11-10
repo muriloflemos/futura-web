@@ -1,0 +1,124 @@
+<app-page-header title="Inventário">
+  <ng-container slot="actions">
+    <app-button
+      title="Voltar"
+      icon="arrow_back"
+      color="secondary"
+      (click)="voltar()"
+      [disabled]="isSaving"
+    ></app-button>
+    <app-button
+      *ngIf="inventario"
+      title="Exportar"
+      icon="file_download"
+      (click)="export()"
+      [disabled]="isSaving"
+    ></app-button>
+    <app-button
+      *ngIf="inventario && !finalizado"
+      title="Finalizar"
+      icon="done"
+      (click)="fecharInventario()"
+      [disabled]="isSaving"
+    ></app-button>
+    <app-button
+      *ngIf="!finalizado"
+      title="Salvar"
+      icon="save"
+      (click)="salvar()"
+      [disabled]="!form.valid || isSaving"
+    ></app-button>
+  </ng-container>
+</app-page-header>
+
+<mat-card *ngIf="usuario$ | async">
+  <mat-card-content>
+    <div class="row" [formGroup]="form">
+      <mat-form-field appearance="outline" class="form-field-full">
+        <mat-label>Data</mat-label>
+        <input matInput disabled [value]="form.value.data | date: 'dd/MM/yyyy HH:mm'" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field-full">
+        <mat-label>Empresa</mat-label>
+        <mat-select formControlName="id_empresa">
+          <mat-option *ngFor="let empresa of (empresas | async)" [value]="empresa.id">
+            {{ empresa.nome }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field-full">
+        <mat-label>Tipo Estoque</mat-label>
+        <mat-select formControlName="tipo_estoque">
+          <mat-option *ngFor="let tipoEstoque of tiposEstoque" [value]="tipoEstoque.id">
+            {{ tipoEstoque.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <app-page-header title="Produtos" *ngIf="inventario">
+      <ng-container slot="actions" *ngIf="!finalizado">
+        <mat-slide-toggle color="primary" [(ngModel)]="somenteDiferencas" (change)="onChangeDiferencas($event)">Somente Diferenças</mat-slide-toggle>
+        <app-button title="Add Produto" icon="add" (click)="addProduto()" [disabled]="!form.valid || isSaving"></app-button>
+      </ng-container>
+    </app-page-header>
+
+    <ng-container *ngIf="inventario">
+      <table mat-table [dataSource]="produtos$">
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns;"
+          [hidden]="row.hidden"
+          class="table-row"
+        ></tr>
+
+        <ng-container matColumnDef="produto">
+          <th mat-header-cell *matHeaderCellDef>Produto</th>
+          <td mat-cell *matCellDef="let produtoDTO">{{ produtoDTO.nome }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="unidade">
+          <th mat-header-cell *matHeaderCellDef class="col-un">Unidade</th>
+          <td mat-cell *matCellDef="let produtoDTO">{{ produtoDTO.unidade }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="quantidade_estoque">
+          <th mat-header-cell *matHeaderCellDef class="col-qtd">Qtd. no Sistema</th>
+          <td mat-cell *matCellDef="let produtoDTO">{{ produtoDTO.quantidade_estoque }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="quantidade_contada">
+          <th mat-header-cell *matHeaderCellDef class="col-qtd">Qtd. Contada</th>
+          <td mat-cell *matCellDef="let produtoDTO">
+            <mat-form-field *ngIf="!finalizado" appearance="outline" class="no-label input-quantidade">
+              <input matInput type="number" [(ngModel)]="produtoDTO.quantidade_contada" onfocus="this.select()" />
+            </mat-form-field>
+            <span *ngIf="finalizado">{{ produtoDTO.quantidade_contada }}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="acoes">
+          <th mat-header-cell *matHeaderCellDef class="col-acoes"></th>
+          <td mat-cell *matCellDef="let produtoDTO">
+            <app-button
+              *ngIf="!finalizado"
+              icon="delete"
+              color="basic"
+              type="icon"
+              (click)="delete(produtoDTO)"
+            ></app-button>
+          </td>
+        </ng-container>
+
+        <ng-container *matNoDataRow>
+          <tr class="mat-row">
+            <td class="mat-cell no-data" colspan="5">Nenhum produto adicionado!</td>
+          </tr>
+        </ng-container>
+      </table>
+    </ng-container>
+  </mat-card-content>
+</mat-card>

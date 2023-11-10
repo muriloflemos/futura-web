@@ -1,0 +1,79 @@
+<app-page-header title="Dashboard"></app-page-header>
+
+<mat-card class="section">
+  <form [formGroup]="form" class="filtro">
+    <mat-form-field appearance="outline" class="form-field-full">
+      <mat-label>Unidade</mat-label>
+      <mat-select formControlName="id_empresa" multiple>
+        <mat-checkbox
+          color="primary"
+          class="select-all"
+          [checked]="allEmpresas"
+          (change)="toggleEmpresas($event.checked)"
+        >SELECIONAR TODOS</mat-checkbox>
+        <mat-option *ngFor="let empresa of empresas" [value]="empresa.id">
+          {{ empresa.nome }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Parceiro</mat-label>
+      <input matInput type="text" formControlName="parceiro">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field-full">
+      <mat-label>Modalidade</mat-label>
+      <mat-select formControlName="modalidade" multiple>
+        <mat-checkbox
+          color="primary"
+          class="select-all"
+          [checked]="allModalidades"
+          (change)="toggleModalidades($event.checked)"
+        >SELECIONAR TODOS</mat-checkbox>
+        <mat-option *ngFor="let modalidade of modalidades" [value]="modalidade.id">
+          {{ modalidade.descricao }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field-full">
+      <mat-label>Carteira</mat-label>
+      <mat-select formControlName="carteira" multiple>
+        <mat-checkbox
+          color="primary"
+          class="select-all"
+          [checked]="allCarteiras"
+          (change)="toggleCarteiras($event.checked)"
+        >SELECIONAR TODOS</mat-checkbox>
+        <mat-option *ngFor="let carteira of carteiras" [value]="carteira.id">
+          {{ carteira.descricao }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="filtro__actions">
+      <button
+        type="reset"
+        mat-raised-button
+        (click)="limpar()"
+      >Limpar</button>
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="!form.valid"
+        (click)="filtrar()"
+      >Filtrar</button>
+    </div>
+  </form>
+</mat-card>
+
+<div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="space-between">
+  <div class="card" fxFlex="49" fxFlex.sm="100" fxFlex.xs="100">
+    <app-pagamentos-periodo></app-pagamentos-periodo>
+  </div>
+
+  <div class="card" fxFlex="49" fxFlex.sm="100" fxFlex.xs="100">
+    <app-resumo-mensal></app-resumo-mensal>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<app-page-header title="Usuário / Alterar Senha">
+  <ng-container slot="actions">
+    <app-button title="Cancelar" icon="close" color="secondary" (click)="cancelar()"></app-button>
+    <app-button title="Salvar" icon="done" (click)="salvar()" [disabled]="!form.valid"></app-button>
+  </ng-container>
+</app-page-header>
+
+<mat-card class="example-card">
+  <mat-card-content [formGroup]="form">
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="form-field-full">
+        <mat-label>Senha</mat-label>
+        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="senha" required>
+        <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-pressed]="hidePassword">
+          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <span class="form-row-spacer"></span>
+
+      <mat-form-field appearance="outline" class="form-field-full">
+        <mat-label>Confirmar senha</mat-label>
+        <input matInput [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirmarSenha" required>
+        <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" [attr.aria-pressed]="hideConfirmPassword">
+          <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  </mat-card-content>
+</mat-card>

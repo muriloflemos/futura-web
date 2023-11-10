@@ -1,0 +1,22 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-block-end: 1.5rem;
+}
+
+:host h1 {
+  font-weight: 400;
+  color: var(--font-color-dark);
+  margin: 0;
+}
+
+:host .actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+:host .actions ::ng-deep > *:not(:first-child) {
+  margin-left: 1rem;
+}
